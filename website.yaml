@@ -1,0 +1,13 @@
+imports:
+  - path: bucket.jinja
+  - path: httpsLoadBalancer.jinja
+
+resources:
+ - name: web-bucket
+   type: bucket.jinja
+
+ - name: external-https-load-balancer
+   type: httpsLoadBalancer.jinja
+   metadata:
+     dependsOn:
+     - backend-bucket-service
