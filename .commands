@@ -1,0 +1,22 @@
+# Syntax checking
+gcloud deployment-manager deployments create web-application \
+  --config website.yaml
+  --properties deployName:webapplication,bucketName:web-application,yourDomain:YOUR_DOMAIN
+  --preview
+
+# Semantic checking
+gcloud deployment-manager deployments update web-application
+
+gsutil rsync -R build gs://web-bucket
+
+# Checking certificate status
+gcloud compute ssl-certificates list \
+  --global
+
+# Verify the target proxy association
+gcloud compute target-https-proxies describe https-loadbalancer \
+  --global \
+  --format="get(sslCertificates)"
+
+# Check on your new deployment
+gcloud deployment-manager deployments describe web-application
